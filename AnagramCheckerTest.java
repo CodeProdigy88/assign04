@@ -55,4 +55,46 @@ public class AnagramCheckerTest {
 		assertArrayEquals(excpectedWords, numbers);
 	}
 
+	// Only works with original file path, but did work
+//	@Test
+//	public void testgetLargestAnagramGroupFile() {
+//		String[] check = AnagramChecker.getLargestAnagramGroup("");
+//		String[] actual = { "carets", "Caters", "caster", "crates", "Reacts", "recast", "traces" };
+//		assertArrayEquals(actual, check);
+//	}
+
+	@Test
+	public void testgetLargestAnagramGroupEmpty() {
+		String[] empty = {};
+		String[] check = AnagramChecker.getLargestAnagramGroup(empty);
+		String[] actual = {};
+		assertArrayEquals(actual, check);
+	}
+
+	@Test
+	public void testgetLargestAnagramGroupStringsSame() {
+		String[] actual = { "carets", "Caters", "caster", "crates", "Reacts", "recast", "traces" };
+		String[] check = AnagramChecker.getLargestAnagramGroup(actual);
+		String[] expected = { "carets", "Caters", "caster", "crates", "Reacts", "recast", "traces" };
+		assertArrayEquals(expected, check);
+	}
+
+	@Test
+	public void testgetLargestAnagramGroupNoAnagrams() {
+		String[] actual = { "april", "august", "december", "february", "january", "july", "june", "march", "may",
+				"november", "october", "september" };
+		String[] check = AnagramChecker.getLargestAnagramGroup(actual);
+		String[] expected = {};
+		assertArrayEquals(expected, check);
+	}
+
+	@Test
+	public void testgetLargestAnagramGroupNormal() {
+		String[] actual = { "april", "august", "december", "April", "february", "january", "july", "june", "arpil",
+				"march", "may", "november", "october", "september" };
+		String[] check = AnagramChecker.getLargestAnagramGroup(actual);
+		String[] expected = { "april", "April", "arpil" };
+		assertArrayEquals(expected, check);
+	}
+
 }

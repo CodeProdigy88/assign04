@@ -73,7 +73,7 @@ public class AnagramChecker {
 		insertionSort(sortedArray, myComparator);
 		// Finds the highest amount of duplicates
 		int highestAmount = 0;
-		int amount = 0;
+		int amount = 1;
 		String anagramCurrent = "";
 		for (int i = 1; i < sortedArray.length; i++) {
 			if (sortedArray[i].compareTo(sortedArray[i - 1]) == 0) {
@@ -83,12 +83,12 @@ public class AnagramChecker {
 					anagramCurrent = sortedArray[i];
 				}
 			} else {
-				amount = 0;
+				amount = 1;
 			}
 		}
 		// We need to return the original words
 		int arrayPlace = 0;
-		String[] returnedArray = new String[highestAmount + 1];
+		String[] returnedArray = new String[highestAmount];
 		for (int i = 0; i < sortedArray.length; i++) {
 			if (areAnagrams(largestGroup[i], anagramCurrent)) {
 				returnedArray[arrayPlace] = largestGroup[i];
@@ -106,7 +106,9 @@ public class AnagramChecker {
 			while (scan.hasNextLine()) {
 				String word = scan.nextLine();
 				wordList.add(word);
+
 			}
+			scan.close();
 		} catch (FileNotFoundException e) {
 			return new String[0];
 		}
