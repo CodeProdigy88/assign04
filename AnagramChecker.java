@@ -1,6 +1,10 @@
 package assign04;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Scanner;
 
 public class AnagramChecker {
 
@@ -59,40 +63,54 @@ public class AnagramChecker {
 	}
 
 	public static String[] getLargestAnagramGroup(String[] largestGroup) {
+		// Sorts the original array into a copy, sorts each word by letter
 		String[] sortedArray = new String[largestGroup.length];
 		for (int i = 0; i < largestGroup.length; i++) {
 			sortedArray[i] = sort(largestGroup[i]);
 		}
-		// Finds the highest amount in a row
+		// Sorts the array by words
+		Comparator<String> myComparator = (s1, s2) -> s1.compareTo(s2);
+		insertionSort(sortedArray, myComparator);
+		// Finds the highest amount of duplicates
 		int highestAmount = 0;
 		int amount = 0;
 		String anagramCurrent = "";
 		for (int i = 1; i < sortedArray.length; i++) {
 			if (sortedArray[i].compareTo(sortedArray[i - 1]) == 0) {
 				amount++;
-			}
-			if (amount > highestAmount) {
-				highestAmount = amount;
-				anagramCurrent = sortedArray[i];
+				if (amount > highestAmount) {
+					highestAmount = amount;
+					anagramCurrent = sortedArray[i];
+				}
+			} else {
+				amount = 0;
 			}
 		}
-		return null;
+		// We need to return the original words
+		int arrayPlace = 0;
+		String[] returnedArray = new String[highestAmount + 1];
+		for (int i = 0; i < sortedArray.length; i++) {
+			if (areAnagrams(largestGroup[i], anagramCurrent)) {
+				returnedArray[arrayPlace] = largestGroup[i];
+				arrayPlace++;
+			}
+		}
+		return returnedArray;
 	}
 
 	public static String[] getLargestAnagramGroup(String filename) {
-		return null;
+		ArrayList<String> wordList = new ArrayList<String>();
+		File file = new File(filename);
+		try {
+			Scanner scan = new Scanner(file);
+			while (scan.hasNextLine()) {
+				String word = scan.nextLine();
+				wordList.add(word);
+			}
+		} catch (FileNotFoundException e) {
+			return new String[0];
+		}
+		String[] fileArray = wordList.toArray(new String[0]);
+		return getLargestAnagramGroup(fileArray);
 	}
-
-	private static String[] fileReader(String filename) {
-		return null;
-	}
-
-	private static String[] anagramLister(String[] sortedList) {
-		return null;
-	}
-
-	private static String getOriginal(String altered) {
-		return altered;
-	}
-
 }
